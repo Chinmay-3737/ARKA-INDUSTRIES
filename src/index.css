@@ -1,0 +1,158 @@
+/* src/index.css */
+
+:root {
+  --primary-orange: #FF9D00;
+}
+
+/* Enable smooth scrolling for the button links */
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #000;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Industrial Texture Overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* Floating Yellow-Lead Metallic Scan */
+.dual-scan-text {
+  background: linear-gradient(
+    to right, 
+    #ffffff 10%,    /* Base White */
+    #FF9D00 30%,    /* Floating Yellow Lead */
+    #ffffff 50%,    /* Following White Shimmer */
+    #888888 60%,    /* Metallic Shadow */
+    #ffffff 80%     /* Return to White */
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: dualScan 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes dualScan {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* Service Card Glow Effect */
+.service-card-glow {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.service-card-glow::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 4px;
+  background: var(--primary-orange);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 0 15px var(--primary-orange);
+}
+
+.service-card-glow:hover::before {
+  opacity: 1;
+}
+
+/* Industrial Divider Lines */
+.divider {
+  border: none;
+  height: 1px;
+  background: #222;
+  width: 100%;
+}
+/* src/index.css */
+
+/* --- Navigation Link Hover Logic --- */
+.nav-link {
+  color: #ffffff; /* Stays white by default */
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  position: relative;
+  transition: color 0.3s ease;
+  padding: 8px 0;
+}
+
+/* Text turns yellow ONLY on hover */
+.nav-link:hover {
+  color: #FF9D00;
+}
+
+/* Animated Underline ONLY for navigation links */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #FF9D00;
+  transition: width 0.3s ease;
+}
+
+/* Line appears ONLY on hover */
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* --- Global Settings --- */
+body {
+  margin: 0;
+  background-color: #000;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth; /* Ensures smooth scrolling for the links */
+}
+/* Animated Industrial Grid Background */
+.industrial-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 157, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 157, 0, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
+  animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+  from { background-position: 0 0; }
+  to { background-position: 50px 50px; }
+}
+
+/* Metallic Pulse for Splash Subtext */
+.shimmer-subtext {
+  background: linear-gradient(90deg, #333 0%, #FF9D00 50%, #333 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: splashShimmer 2s linear infinite;
+}
+
+@keyframes splashShimmer {
+  to { background-position: 200% center; }
+}
