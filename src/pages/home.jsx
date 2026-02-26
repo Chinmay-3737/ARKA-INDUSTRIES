@@ -14,36 +14,67 @@ const Home = () => {
     { number: "99%", label: "QUALITY RATE" },
   ];
 
+  // Animation variants for the staggered reveal
+  const revealContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.4
+      }
+    }
+  };
+
+  const revealItem = {
+    initial: { opacity: 0, y: 20 },
+    animate: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.8, ease: "easeOut" } 
+    }
+  };
+
   return (
     <div style={{ backgroundColor: "#000" }}>
       <Navbar />
       <Hero />
       
-      {/* Precision Stats Section */}
-      <section style={styles.statsSection}>
+      {/* Precision Stats Section with Reveal Effect */}
+      <motion.section 
+        style={styles.statsSection}
+        variants={revealContainer}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true }}
+      >
         <div style={styles.statsContainer}>
           <div style={styles.statsHeader}>
-            <span style={styles.tagline}>WHO WE ARE</span>
-            <h2 style={styles.heading}>
+            <motion.span variants={revealItem} style={styles.tagline}>WHO WE ARE</motion.span>
+            <motion.h2 variants={revealItem} style={styles.heading}>
               Precision. Power. <span className="dual-scan-text">Performance.</span>
-            </h2>
-            <p style={styles.subtext}>
+            </motion.h2>
+            <motion.p variants={revealItem} style={styles.subtext}>
               We are a state-of-the-art manufacturing unit delivering high-precision laser cutting, CNC fabrication, and industrial solutions.
-            </p>
+            </motion.p>
           </div>
 
-          <hr className="divider" />
+          <motion.hr variants={revealItem} className="divider" />
+          
           <div style={styles.statsRow}>
             {stats.map((stat, i) => (
-              <motion.div key={i} style={styles.statItem} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
+              <motion.div 
+                key={i} 
+                style={styles.statItem} 
+                variants={revealItem}
+              >
                 <h3 className="dual-scan-text" style={styles.statNumber}>{stat.number}</h3>
                 <p style={styles.statLabel}>{stat.label}</p>
               </motion.div>
             ))}
           </div>
-          <hr className="divider" />
+          
+          <motion.hr variants={revealItem} className="divider" />
         </div>
-      </section>
+      </motion.section>
 
       <About />
       <Services />

@@ -1,11 +1,37 @@
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 const Footer = () => {
+  // Staggered animation variants for columns
+  const containerVars = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1, // Delay between each section appearing
+      }
+    }
+  };
+
+  const itemVars = {
+    initial: { opacity: 0, y: 20 },
+    animate: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.6, ease: "easeOut" } 
+    }
+  };
+
   return (
     <footer style={styles.footer}>
-      <div style={styles.container}>
+      {/* Container now triggers staggered reveal on scroll */}
+      <motion.div 
+        style={styles.container}
+        variants={containerVars}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.1 }}
+      >
         {/* Brand Section */}
-        <div style={styles.brandSide}>
+        <motion.div variants={itemVars} style={styles.brandSide}>
           <div style={styles.logoBox}>
             <div style={styles.logoIcon}>A</div>
             <h2 style={styles.logoText}>Arka Industries</h2>
@@ -14,23 +40,35 @@ const Footer = () => {
             Leading manufacturer of precision laser-cut, CNC-fabricated, and welded components for industrial applications.
           </p>
           <div style={styles.socials}>
-            <div style={styles.socialIcon}><FaFacebookF /></div>
-            <div style={styles.socialIcon}><FaInstagram /></div>
-            <div style={styles.socialIcon}><FaLinkedinIn /></div>
-            <div style={styles.socialIcon}><FaYoutube /></div>
+            {/* Added hover glow logic to icons */}
+            {[<FaFacebookF />, <FaInstagram />, <FaWhatsapp />].map((icon, index) => (
+              <motion.div 
+                key={index}
+                style={styles.socialIcon}
+                whileHover={{ 
+                  color: "#FF9D00", 
+                  borderColor: "#FF9D00", 
+                  boxShadow: "0px 0px 15px rgba(255, 157, 0, 0.4)",
+                  backgroundColor: "rgba(255, 157, 0, 0.05)"
+                }}
+                whileTap={{ scale: 0.9 }}
+              >
+                {icon}
+              </motion.div>
+            ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Links Sections */}
-        <div style={styles.linkGroup}>
+        <motion.div variants={itemVars} style={styles.linkGroup}>
           <h4 style={styles.groupTitle}>QUICK LINKS</h4>
           <a href="#home" style={styles.link}>Home</a>
           <a href="#about" style={styles.link}>About</a>
           <a href="#services" style={styles.link}>Services</a>
           <a href="#contact" style={styles.link}>Contact</a>
-        </div>
+        </motion.div>
 
-        <div style={styles.linkGroup}>
+        <motion.div variants={itemVars} style={styles.linkGroup}>
           <h4 style={styles.groupTitle}>SERVICES</h4>
           <span style={styles.link}>Laser Cutting Service</span>
           <span style={styles.link}>CNC Laser Cutting</span>
@@ -38,17 +76,17 @@ const Footer = () => {
           <span style={styles.link}>Laser Welding Machine</span>
           <span style={styles.link}>CNC Laser Welding</span>
           <span style={styles.link}>Industrial Fabrication</span>
-        </div>
+        </motion.div>
 
         {/* Contact Info Section */}
-        <div style={styles.linkGroup}>
+        <motion.div variants={itemVars} style={styles.linkGroup}>
           <h4 style={styles.groupTitle}>CONTACT</h4>
           <p style={styles.contactItem}>📍 HOUSE NO 382,CHAKAN,BALAJI NAGAR,Chakan 1ST, HOUSE NO 382, CHAKAN, BALAJI NAGAR, Medankarwadi, Chakan, Pune, Maharashtra, 410501,410501, Pune-410501, Maharashtra, India</p>
           <p style={styles.contactItem}>📞 +91 1234567898</p>
           <p style={styles.contactItem}>✉️ info@arkaindustries.com</p>
           <p style={styles.contactItem}>🕒 Mon–Sat: 9:00 AM – 6:00 PM</p>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       <div style={styles.bottomBar}>
         <p>© 2026 Arka Industries. All rights reserved.</p>
@@ -65,6 +103,7 @@ const styles = {
     borderTop: "1px solid #111",
     color: "#fff",
     fontFamily: "'Inter', sans-serif",
+    overflow: "hidden" // Prevents horizontal scroll during reveal
   },
   container: {
     display: "flex",
