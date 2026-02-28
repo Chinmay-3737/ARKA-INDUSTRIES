@@ -1,6 +1,9 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 const Services = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const services = [
     { emoji: "☀️", title: "Laser Cutting Service", desc: "High-precision laser cutting for metals and alloys with tight tolerances." },
     { emoji: "🤖", title: "CNC Laser Cutting", desc: "Computer-controlled laser cutting for complex shapes and mass production." },
@@ -14,37 +17,31 @@ const Services = () => {
     { emoji: "🛠️", title: "Leader Welding", desc: "Expert leader welding services ensuring structural integrity and durability." },
   ];
 
-  // Container variant to trigger staggered children
-  const containerReveal = {
-    animate: {
-      transition: {
-        staggerChildren: 0.1, // Delay between each card popping up
-      }
-    }
-  };
-
   // Individual card animation variant
   const cardReveal = {
     initial: { opacity: 0, y: 40 },
-    animate: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.6, ease: "easeOut" } 
+    animate: { opacity: 1, y: 0 },
+    hover: {
+      borderColor: "#FF9D00",
+      boxShadow: "0px 10px 40px rgba(255, 157, 0, 0.2)",
+      borderTopColor: "#FF9D00",
+      y: -10,
+      transition: { duration: 0.3 }
     }
   };
 
   return (
     <section id="services" style={styles.section}>
       <div style={styles.container}>
-        <motion.span 
-          initial={{ opacity: 0 }} 
-          whileInView={{ opacity: 1 }} 
+        <motion.span
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           style={styles.tagline}
         >
           WHAT WE OFFER
         </motion.span>
-        
-        <motion.h2 
+
+        <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -53,71 +50,240 @@ const Services = () => {
           Our <span style={{ color: "#FF9D00" }}>Services</span>
         </motion.h2>
 
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           style={styles.subtext}
         >
-          From precision laser cutting to heavy industrial fabrication — we deliver 
+          From precision laser cutting to heavy industrial fabrication — we deliver
           complete manufacturing solutions under one roof.
         </motion.p>
 
-        {/* The Grid Container with Staggered Reveal */}
-        <motion.div 
-          style={styles.grid}
-          variants={containerReveal}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true, amount: 0.1 }}
-        >
+        {/* The Grid Container with Individual Card Reveals */}
+        <div style={styles.grid}>
           {services.map((service, index) => (
             <motion.div
               key={index}
               style={styles.card}
-              variants={cardReveal} // Inherits from parent
-              whileHover={{ 
-                borderColor: "#FF9D00",
-                boxShadow: "0px 0px 30px rgba(255, 157, 0, 0.2)",
-                borderTop: "4px solid #FF9D00",
-                y: -5
-              }}
+              variants={cardReveal}
+              initial="initial"
+              whileInView="animate"
+              whileHover="hover"
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
             >
-              <div style={styles.emojiIcon}>{service.emoji}</div>
+              <motion.div
+                style={styles.emojiIcon}
+                variants={{
+                  initial: { scale: 1, rotate: 0 },
+                  hover: {
+                    scale: 1.2,
+                    rotate: [0, -10, 10, -10, 0],
+                    transition: { duration: 0.5 }
+                  }
+                }}
+              >
+                {service.emoji}
+              </motion.div>
               <h4 style={styles.cardTitle}>{service.title}</h4>
               <p style={styles.cardDesc}>{service.desc}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
         <div style={styles.quoteBar}>
-          <motion.button 
+          <motion.button
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             style={styles.quoteBtn}
+            onClick={() => setIsModalOpen(true)}
           >
             REQUEST A CUSTOM QUOTE
           </motion.button>
         </div>
       </div>
+
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            style={styles.modalOverlay}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsModalOpen(false)}
+          >
+            <motion.div
+              style={styles.modalContent}
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 50, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <motion.div
+                style={styles.modalHeader}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <h3 style={styles.modalTitle}>Request a Quote</h3>
+                <button onClick={() => setIsModalOpen(false)} style={styles.closeBtn}>&times;</button>
+              </motion.div>
+              <form
+                style={styles.form}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setIsModalOpen(false);
+                  alert("Quote request sent successfully!");
+                }}
+              >
+                <motion.div
+                  style={{ display: "flex", gap: "20px", width: "100%" }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <div style={{ ...styles.inputGroup, flex: 1 }}>
+                    <label style={styles.label}>Name</label>
+                    <motion.input
+                      type="text"
+                      placeholder="Your Name"
+                      style={styles.input}
+                      required
+                      whileFocus={{ borderColor: "#FF9D00", boxShadow: "0px 0px 10px rgba(255,157,0,0.3)" }}
+                      whileHover={{ borderColor: "rgba(255,157,0,0.5)" }}
+                    />
+                  </div>
+                  <div style={{ ...styles.inputGroup, flex: 1 }}>
+                    <label style={styles.label}>Phone Number</label>
+                    <motion.input
+                      type="tel"
+                      placeholder="Your Phone"
+                      style={styles.input}
+                      required
+                      whileFocus={{ borderColor: "#FF9D00", boxShadow: "0px 0px 10px rgba(255,157,0,0.3)" }}
+                      whileHover={{ borderColor: "rgba(255,157,0,0.5)" }}
+                    />
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  style={{ display: "flex", gap: "20px", width: "100%" }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <div style={{ ...styles.inputGroup, flex: 1 }}>
+                    <label style={styles.label}>Email</label>
+                    <motion.input
+                      type="email"
+                      placeholder="Your Email"
+                      style={styles.input}
+                      required
+                      whileFocus={{ borderColor: "#FF9D00", boxShadow: "0px 0px 10px rgba(255,157,0,0.3)" }}
+                      whileHover={{ borderColor: "rgba(255,157,0,0.5)" }}
+                    />
+                  </div>
+                  <div style={{ ...styles.inputGroup, flex: 1 }}>
+                    <label style={styles.label}>Company Name</label>
+                    <motion.input
+                      type="text"
+                      placeholder="Your Company"
+                      style={styles.input}
+                      whileFocus={{ borderColor: "#FF9D00", boxShadow: "0px 0px 10px rgba(255,157,0,0.3)" }}
+                      whileHover={{ borderColor: "rgba(255,157,0,0.5)" }}
+                    />
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  style={styles.inputGroup}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <label style={styles.label}>Service of Interest</label>
+                  <motion.select
+                    style={styles.select}
+                    required
+                    defaultValue=""
+                    whileFocus={{ borderColor: "#FF9D00", boxShadow: "0px 0px 10px rgba(255,157,0,0.3)" }}
+                    whileHover={{ borderColor: "rgba(255,157,0,0.5)" }}
+                  >
+                    <option value="" disabled>Select a Service</option>
+                    {services.map((s, i) => (
+                      <option key={i} value={s.title}>{s.title}</option>
+                    ))}
+                  </motion.select>
+                </motion.div>
+
+                <motion.div
+                  style={styles.inputGroup}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <label style={styles.label}>Inquiry Details</label>
+                  <motion.textarea
+                    placeholder="Tell us about your project requirements..."
+                    rows="5"
+                    style={styles.textarea}
+                    required
+                    whileFocus={{ borderColor: "#FF9D00", boxShadow: "0px 0px 10px rgba(255,157,0,0.3)", backgroundColor: "#0A0A0A" }}
+                    whileHover={{ borderColor: "rgba(255,157,0,0.5)" }}
+                  ></motion.textarea>
+                </motion.div>
+
+                <motion.button
+                  type="submit"
+                  style={styles.submitBtn}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  whileHover={{ scale: 1.02, boxShadow: "0px 0px 20px rgba(255, 157, 0, 0.4)" }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Send Inquiry
+                </motion.button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
 
 const styles = {
-  section: { padding: "100px 10%", background: "#000000", color: "#FFFFFF", fontFamily: "'Inter', sans-serif" },
-  container: { textAlign: "center" },
-  tagline: { color: "#FF9D00", fontSize: "12px", letterSpacing: "3px", fontWeight: "bold", display: "block", marginBottom: "15px" },
-  heading: { fontSize: "48px", fontWeight: "800", marginBottom: "20px" },
-  subtext: { color: "#888", fontSize: "16px", maxWidth: "600px", margin: "0 auto 60px", lineHeight: "1.6" },
-  grid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px", marginBottom: "60px" },
-  card: { background: "#080808", padding: "35px 25px", borderRadius: "12px", border: "1px solid #1A1A1A", borderTop: "4px solid transparent", textAlign: "left", transition: "all 0.3s ease", cursor: "pointer" },
-  emojiIcon: { fontSize: "32px", marginBottom: "20px" },
-  cardTitle: { fontSize: "16px", fontWeight: "700", color: "#FF9D00", marginBottom: "15px" },
-  cardDesc: { fontSize: "14px", color: "#666", lineHeight: "1.6" },
-  quoteBar: { marginTop: "40px", display: "flex", justifyContent: "center" },
-  quoteBtn: { background: "#FF9D00", color: "#000", border: "none", padding: "18px 45px", fontSize: "16px", fontWeight: "800", borderRadius: "6px", cursor: "pointer", letterSpacing: "1px", boxShadow: "0px 4px 15px rgba(255, 157, 0, 0.3)" }
+  section: { padding: "70px 5%", background: "#000000", color: "#FFFFFF", fontFamily: "'Inter', sans-serif" },
+  container: { textAlign: "center", maxWidth: "1400px", margin: "0 auto" },
+  tagline: { color: "#FF9D00", fontSize: "12px", letterSpacing: "3px", fontWeight: "bold", display: "block", marginBottom: "10px" },
+  heading: { fontSize: "40px", fontWeight: "800", marginBottom: "15px" },
+  subtext: { color: "#888", fontSize: "15px", maxWidth: "600px", margin: "0 auto 40px", lineHeight: "1.6" },
+  grid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "15px", marginBottom: "40px" },
+  card: {
+    background: "#0A0A0A", padding: "25px 20px", borderRadius: "12px",
+    border: "1px solid #1F1F1F", borderTop: "4px solid transparent",
+    textAlign: "left", cursor: "pointer"
+  },
+  emojiIcon: { fontSize: "32px", marginBottom: "15px", display: "inline-block" },
+  cardTitle: { fontSize: "15px", fontWeight: "700", color: "#FF9D00", marginBottom: "10px" },
+  cardDesc: { fontSize: "13px", color: "#666", lineHeight: "1.5" },
+  quoteBar: { marginTop: "30px", display: "flex", justifyContent: "center" },
+  quoteBtn: { background: "#FF9D00", color: "#000", border: "none", padding: "18px 45px", fontSize: "16px", fontWeight: "800", borderRadius: "6px", cursor: "pointer", letterSpacing: "1px", boxShadow: "0px 4px 15px rgba(255, 157, 0, 0.3)" },
+  modalOverlay: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0, 0, 0, 0.85)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 1000, backdropFilter: "blur(8px)" },
+  modalContent: { background: "#0D0D0D", padding: "50px", borderRadius: "16px", width: "95%", maxWidth: "700px", border: "1px solid #FF9D0040", position: "relative", boxShadow: "0px 20px 60px rgba(255,157,0,0.15)" },
+  modalHeader: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "35px" },
+  modalTitle: { margin: 0, fontSize: "32px", fontWeight: "800", color: "#FF9D00", letterSpacing: "-0.5px" },
+  closeBtn: { background: "transparent", border: "none", color: "#888", fontSize: "36px", cursor: "pointer", transition: "all 0.2s", lineHeight: "1" },
+  form: { display: "flex", flexDirection: "column", gap: "25px" },
+  inputGroup: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "10px", width: "100%" },
+  label: { fontSize: "15px", fontWeight: "600", color: "#E0E0E0", letterSpacing: "0.5px" },
+  input: { width: "100%", padding: "16px 20px", borderRadius: "8px", border: "1px solid #2A2A2A", background: "#050505", color: "#FFF", fontSize: "16px", outline: "none", boxSizing: "border-box", transition: "all 0.3s ease" },
+  textarea: { width: "100%", padding: "16px 20px", borderRadius: "8px", border: "1px solid #2A2A2A", background: "#050505", color: "#FFF", fontSize: "16px", outline: "none", resize: "vertical", boxSizing: "border-box", transition: "all 0.3s ease" },
+  select: { width: "100%", padding: "16px 20px", borderRadius: "8px", border: "1px solid #2A2A2A", background: "#050505", color: "#FFF", fontSize: "16px", outline: "none", boxSizing: "border-box", cursor: "pointer", appearance: "none", transition: "all 0.3s ease" },
+  submitBtn: { background: "#FF9D00", color: "#000", border: "none", padding: "18px", fontSize: "18px", fontWeight: "800", borderRadius: "8px", cursor: "pointer", marginTop: "15px", transition: "all 0.3s ease", letterSpacing: "1px" }
 };
 
 export default Services;
