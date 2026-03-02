@@ -136,7 +136,7 @@ const About = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div style={styles.modalHeader}>
-                <h3 style={styles.modalTitle}>About <span style={{ color: '#FF9D00' }}>Arka Industries</span></h3>
+                <h3 style={styles.modalTitle}>About <span style={{ color: '#FF9D00' }}>Arka-Industries</span></h3>
                 <button onClick={() => setIsModalOpen(false)} style={styles.closeBtn}>&times;</button>
               </div>
 
