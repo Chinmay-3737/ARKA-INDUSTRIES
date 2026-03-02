@@ -147,22 +147,38 @@ const About = () => {
 
                 <h4 style={styles.modalSubtitle}>Our Capabilities</h4>
                 <div style={styles.capabilityGrid}>
-                  <div style={styles.capabilityCard}>
+                  <motion.div
+                    style={styles.capabilityCard}
+                    whileHover={{ scale: 1.03, borderColor: "#FF9D00", boxShadow: "0px 8px 30px rgba(255, 157, 0, 0.25)", y: -5 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <div style={styles.capabilityIcon}>🏭</div>
                     <div><strong>Heavy Fabrication</strong><br />Capacity for large-scale structural components up to 50 tons.</div>
-                  </div>
-                  <div style={styles.capabilityCard}>
+                  </motion.div>
+                  <motion.div
+                    style={styles.capabilityCard}
+                    whileHover={{ scale: 1.03, borderColor: "#FF9D00", boxShadow: "0px 8px 30px rgba(255, 157, 0, 0.25)", y: -5 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <div style={styles.capabilityIcon}>⚡</div>
                     <div><strong>Precision Laser</strong><br />Multi-axis fiber laser cutting for complex geometries.</div>
-                  </div>
-                  <div style={styles.capabilityCard}>
+                  </motion.div>
+                  <motion.div
+                    style={styles.capabilityCard}
+                    whileHover={{ scale: 1.03, borderColor: "#FF9D00", boxShadow: "0px 8px 30px rgba(255, 157, 0, 0.25)", y: -5 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <div style={styles.capabilityIcon}>🔬</div>
                     <div><strong>Quality Assurance</strong><br />CMM inspection and strict ISO 9001:2015 compliance.</div>
-                  </div>
-                  <div style={styles.capabilityCard}>
+                  </motion.div>
+                  <motion.div
+                    style={styles.capabilityCard}
+                    whileHover={{ scale: 1.03, borderColor: "#FF9D00", boxShadow: "0px 8px 30px rgba(255, 157, 0, 0.25)", y: -5 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <div style={styles.capabilityIcon}>🚀</div>
                     <div><strong>Rapid Prototyping</strong><br />Dedicated team for fast turnaround on R&D components.</div>
-                  </div>
+                  </motion.div>
                 </div>
 
                 <p style={styles.modalText}>
@@ -232,7 +248,21 @@ const styles = {
   modalText: { fontSize: "16px", lineHeight: "1.8", color: "#AAA", margin: 0 },
   modalSubtitle: { fontSize: "20px", fontWeight: "700", color: "#FFF", margin: "10px 0 0 0" },
   capabilityGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "20px" },
-  capabilityCard: { background: "#151515", border: "1px solid #2A2A2A", borderRadius: "10px", padding: "20px", display: "flex", gap: "15px", alignItems: "flex-start", fontSize: "14px", lineHeight: "1.6" },
+  capabilityCard: {
+    background: "rgba(20, 20, 20, 0.4)",
+    border: "1px solid rgba(255, 255, 255, 0.05)",
+    backdropFilter: "blur(12px)",
+    WebkitBackdropFilter: "blur(12px)",
+    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",
+    borderRadius: "10px",
+    padding: "20px",
+    display: "flex",
+    gap: "15px",
+    alignItems: "flex-start",
+    fontSize: "14px",
+    lineHeight: "1.6",
+    cursor: "pointer"
+  },
   capabilityIcon: { fontSize: "24px" },
   modalFooter: { marginTop: "35px", paddingTop: "25px", borderTop: "1px solid #222", display: "flex", justifyContent: "flex-end" },
   primaryBtn: { background: "#FF9D00", color: "#000", border: "none", padding: "14px 28px", fontSize: "16px", fontWeight: "800", borderRadius: "6px", cursor: "pointer", letterSpacing: "1px", transition: "all 0.3s ease" }

@@ -11,7 +11,7 @@ const Contact = () => {
             Contact <span style={{ color: "#FF9D00" }}>Us</span>
           </h2>
           <p style={styles.subtext}>
-            Have a project in mind? Fill out the form and our team will get back to you 
+            Have a project in mind? Fill out the form and our team will get back to you
             within 24 hours.
           </p>
         </div>
@@ -35,20 +35,47 @@ const Contact = () => {
           {/* Form Section */}
           <div style={styles.formSide}>
             <form style={styles.form}>
-              <input type="text" placeholder="Full Name" style={styles.input} />
-              <input type="email" placeholder="Email Address" style={styles.input} />
-              <input type="tel" placeholder="Phone Number" style={styles.input} />
-              
-              <select style={styles.input}>
+              <motion.input
+                type="text"
+                placeholder="Full Name"
+                style={styles.input}
+                whileFocus={{ borderColor: "#2A2A2A", borderBottomColor: "#FF9D00", boxShadow: "0px 10px 15px -10px rgba(255,157,0,0.5)" }}
+                whileHover={{ borderBottomColor: "rgba(255,157,0,0.5)" }}
+              />
+              <motion.input
+                type="email"
+                placeholder="Email Address"
+                style={styles.input}
+                whileFocus={{ borderColor: "#2A2A2A", borderBottomColor: "#FF9D00", boxShadow: "0px 10px 15px -10px rgba(255,157,0,0.5)" }}
+                whileHover={{ borderBottomColor: "rgba(255,157,0,0.5)" }}
+              />
+              <motion.input
+                type="tel"
+                placeholder="Phone Number"
+                style={styles.input}
+                whileFocus={{ borderColor: "#2A2A2A", borderBottomColor: "#FF9D00", boxShadow: "0px 10px 15px -10px rgba(255,157,0,0.5)" }}
+                whileHover={{ borderBottomColor: "rgba(255,157,0,0.5)" }}
+              />
+
+              <motion.select
+                style={{ ...styles.input, appearance: "none" }}
+                whileFocus={{ borderColor: "#2A2A2A", borderBottomColor: "#FF9D00", boxShadow: "0px 10px 15px -10px rgba(255,157,0,0.5)" }}
+                whileHover={{ borderBottomColor: "rgba(255,157,0,0.5)" }}
+              >
                 <option value="" disabled selected>Select Service of Interest</option>
                 <option value="laser">Laser Cutting</option>
                 <option value="cnc">CNC Fabrication</option>
                 <option value="welding">Industrial Welding</option>
-              </select>
+              </motion.select>
 
-              <textarea placeholder="Your Message" style={styles.textarea}></textarea>
+              <motion.textarea
+                placeholder="Your Message"
+                style={styles.textarea}
+                whileFocus={{ borderColor: "#2A2A2A", borderBottomColor: "#FF9D00", boxShadow: "0px 10px 15px -10px rgba(255,157,0,0.5)", backgroundColor: "#0A0A0A" }}
+                whileHover={{ borderBottomColor: "rgba(255,157,0,0.5)" }}
+              ></motion.textarea>
 
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 style={styles.submitBtn}
@@ -124,18 +151,21 @@ const styles = {
     gap: "15px",
   },
   input: {
-    background: "#080808",
-    border: "1px solid #1A1A1A",
+    background: "rgba(5, 5, 5, 0.8)",
+    border: "none",
+    borderBottom: "2px solid #2A2A2A",
     borderRadius: "6px",
     padding: "15px 20px",
     color: "#fff",
     fontSize: "14px",
     outline: "none",
-    transition: "border-color 0.3s ease",
+    transition: "all 0.3s ease",
+    boxSizing: "border-box",
   },
   textarea: {
-    background: "#080808",
-    border: "1px solid #1A1A1A",
+    background: "rgba(5, 5, 5, 0.8)",
+    border: "none",
+    borderBottom: "2px solid #2A2A2A",
     borderRadius: "6px",
     padding: "15px 20px",
     color: "#fff",
@@ -143,6 +173,8 @@ const styles = {
     height: "150px",
     outline: "none",
     resize: "none",
+    transition: "all 0.3s ease",
+    boxSizing: "border-box",
   },
   submitBtn: {
     background: "#FF9D00",

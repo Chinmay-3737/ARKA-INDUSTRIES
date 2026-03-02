@@ -5,7 +5,7 @@ const Hero = () => {
   const canvasRef = useRef(null);
   const mouseRef = useRef({ x: null, y: null });
   const { scrollY } = useScroll();
-  
+
   const opacityValue = useTransform(scrollY, [0, 150], [1, 0]);
   const yValue = useTransform(scrollY, [0, 150], [0, 20]);
 
@@ -13,7 +13,7 @@ const Hero = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     let particles = [];
-    
+
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -89,20 +89,29 @@ const Hero = () => {
   return (
     <section id="home" style={styles.hero}>
       <canvas ref={canvasRef} style={styles.canvas} />
-      
+
       {/* Kept: Professional side gears and tech lines */}
       <div className="tech-accent-left">
-        <div className="gear-icon">⚙️</div>
+        <motion.div className="gear-icon" animate={{ rotate: 360 }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }}>⚙️</motion.div>
         <div className="data-bar-long"></div>
       </div>
 
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} style={styles.content}>
-        <span style={styles.tagline}>PRECISION MANUFACTURING UNIT</span>
-        <h1 className="dual-scan-text" style={styles.title}>ARKA <br /> INDUSTRIES</h1>
+        <motion.span style={styles.tagline} animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}>PRECISION MANUFACTURING UNIT</motion.span>
+        <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}>
+          <h1 className="dual-scan-text" style={styles.title}>ARKA <br /> INDUSTRIES</h1>
+        </motion.div>
         <p style={styles.subtitle}>Experts in Laser Cutting, CNC Fabrication, Welding & Industrial Manufacturing</p>
         <div style={styles.buttons}>
           <a href="#services" style={{ textDecoration: 'none' }}>
-            <motion.button className="primary-btn-hover" style={styles.primaryBtn} whileHover={{ backgroundColor: "#e68a00", boxShadow: "0px 0px 25px rgba(255, 157, 0, 0.6)", scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.button
+              className="primary-btn-hover"
+              style={styles.primaryBtn}
+              animate={{ boxShadow: ["0px 0px 0px rgba(255,157,0,0)", "0px 0px 15px rgba(255,157,0,0.5)", "0px 0px 0px rgba(255,157,0,0)"] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              whileHover={{ backgroundColor: "#e68a00", boxShadow: "0px 0px 30px rgba(255, 157, 0, 0.8)", scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
               EXPLORE SERVICES
             </motion.button>
           </a>
@@ -111,7 +120,7 @@ const Hero = () => {
 
       <div className="tech-accent-right">
         <div className="data-bar-long"></div>
-        <div className="gear-icon">⚙️</div>
+        <motion.div className="gear-icon" animate={{ rotate: -360 }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }}>⚙️</motion.div>
       </div>
 
       {/* Kept: Scroll mouse indicator */}
